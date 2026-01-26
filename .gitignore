@@ -56,3 +56,5 @@ plugin/
 # Claude Code files
 .claude/
 CLAUDE.md
+# Git worktrees
+.worktrees/
