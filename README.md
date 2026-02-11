@@ -134,7 +134,16 @@ When the session manager is open:
 | `r` | Rename selected session |
 | `j/k` or `↓/↑` | Navigate session list |
 | `1-9` | Quick select session by number |
-| `q` or `<Esc>` | Close manager |
+| `<Esc>` | Close manager |
+
+### Session Terminal Keybindings
+
+When a terminal session window is open:
+
+| Key | Action |
+|-----|--------|
+| `<C-Esc>` | Close the session window (terminal mode) |
+| Toggle key (default `<C-/>`) | Toggle session manager (normal/terminal mode) |
 
 ---
 
@@ -145,7 +154,7 @@ When the session manager is open:
 local luxterm = require("luxterm").setup()
 
 -- Create and manage sessions
-local session = luxterm.create_session({ name = "work", activate = true })
+local session = luxterm.create_session({ name = "work" })
 luxterm.delete_session(session.id, { confirm = true })
 luxterm.switch_session(session.id)
 
@@ -159,6 +168,14 @@ local active = luxterm.get_active_session()
 local stats = luxterm.get_stats()
 local config = luxterm.get_config()
 ```
+
+### `create_session` Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `name` | `string` | `"Session N"` | Session name (max 12 characters, truncated if longer) |
+| `activate` | `boolean` | `true` | Make this the active session |
+| `focus_on_create` | `boolean` | `false` | Open session in a floating window immediately |
 
 ### Session Object Methods
 
@@ -208,9 +225,9 @@ The plugin includes built-in configuration presets for common use cases:
 
 ```lua
 -- Apply a preset after setup
-require("luxterm.config").apply_preset("minimal")    -- No preview, smaller window
-require("luxterm.config").apply_preset("compact")    -- 60% screen, preview enabled
-require("luxterm.config").apply_preset("full_screen") -- 95% screen, no auto-hide
+require("luxterm.config").apply_preset("minimal")    -- No preview, 40% x 60%
+require("luxterm.config").apply_preset("compact")    -- Preview enabled, 60% x 50%
+require("luxterm.config").apply_preset("full_screen") -- Preview enabled, 95% x 90%, no auto-hide
 ```
 
 ### Custom Keybindings
@@ -222,6 +239,39 @@ vim.keymap.set("n", "<leader>tk", ":LuxtermKill<CR>", { desc = "Kill terminal" }
 vim.keymap.set("n", "<leader>tj", ":LuxtermNext<CR>", { desc = "Next terminal session" })
 vim.keymap.set("n", "<leader>th", ":LuxtermPrev<CR>", { desc = "Previous terminal session" })
 ```
+
+---
+
+## 🎨 Highlight Groups
+
+All highlight groups use `link`-based defaults, meaning they automatically adapt to your colorscheme. Override any group to customize:
+
+```lua
+-- Example: custom highlight overrides
+vim.api.nvim_set_hl(0, "LuxtermBorderSelected", { fg = "#ff9e64" })
+vim.api.nvim_set_hl(0, "LuxtermSessionNameSelected", { fg = "#7aa2f7", bold = true })
+```
+
+| Group | Default Link | Used For |
+|-------|-------------|----------|
+| `LuxtermNormal` | `NormalFloat` | Window background |
+| `LuxtermBorder` | `FloatBorder` | Window borders |
+| `LuxtermTitle` | `FloatTitle` | Window titles |
+| `LuxtermSessionNameSelected` | `Title` | Selected session name |
+| `LuxtermSessionSelected` | `Special` | Selected session text |
+| `LuxtermBorderSelected` | `Function` | Selected session border |
+| `LuxtermSessionIconSelected` | `DiagnosticOk` | Selected session icon |
+| `LuxtermSessionName` | `Normal` | Unselected session name |
+| `LuxtermSessionNormal` | `Comment` | Unselected session text |
+| `LuxtermBorderNormal` | `NonText` | Unselected session border |
+| `LuxtermSessionIcon` | `NonText` | Unselected session icon |
+| `LuxtermSessionKey` | `Number` | Session hotkey numbers |
+| `LuxtermMenuIcon` | `Function` | Shortcut bar icons |
+| `LuxtermMenuText` | `Normal` | Shortcut bar text |
+| `LuxtermMenuKey` | `Keyword` | Shortcut bar keys |
+| `LuxtermPreviewTitle` | `Title` | Preview pane headers |
+| `LuxtermPreviewContent` | `Normal` | Preview pane content |
+| `LuxtermPreviewEmpty` | `Comment` | Preview empty state |
 
 ---
 
