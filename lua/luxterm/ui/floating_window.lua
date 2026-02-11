@@ -5,6 +5,8 @@ local utils = require("luxterm.utils")
 local M = {}
 
 -- Window type configurations
+local WINHIGHLIGHT = "Normal:LuxtermNormal,FloatBorder:LuxtermBorder,FloatTitle:LuxtermTitle"
+
 M.window_types = {
   session_list = {
     relative = "editor",
@@ -16,9 +18,9 @@ M.window_types = {
     protected = true,
     hide_cursor = true
   },
-  
+
   preview = {
-    relative = "editor", 
+    relative = "editor",
     border = "rounded",
     title = " Preview ",
     title_pos = "center",
@@ -26,7 +28,7 @@ M.window_types = {
     buffer_options = utils.buffer_presets.luxterm_preview,
     hide_cursor = true
   },
-  
+
   session_terminal = {
     relative = "editor",
     border = "rounded",
@@ -87,7 +89,8 @@ function M.create_window(config)
   -- Create window
   local winid = vim.api.nvim_open_win(bufnr, config.enter or false, win_config)
   
-  -- Window-specific options
+  vim.wo[winid].winhighlight = WINHIGHLIGHT
+
   if config.window_options then
     for opt, value in pairs(config.window_options) do
       vim.wo[winid][opt] = value

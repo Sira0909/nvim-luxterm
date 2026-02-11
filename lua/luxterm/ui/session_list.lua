@@ -1,5 +1,4 @@
 -- Optimized session list component with borders and highlighting
-local highlights = require("luxterm.ui.highlights")
 local floating_window = require("luxterm.ui.floating_window")
 local buffer_protection = require("luxterm.ui.buffer_protection")
 local utils = require("luxterm.utils")
@@ -25,7 +24,6 @@ local M = {
 
 
 function M.setup(opts)
-  highlights.setup_session_highlights()
 end
 
 function M.calculate_required_width()

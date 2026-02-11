@@ -227,7 +227,7 @@ function M.create_session(opts)
   if not bufnr then
     bufnr = vim.api.nvim_create_buf(true, false)
 
-    local temp_win = vim.api.nvim_open_win(bufnr, false, {
+    local win_config = {
       relative = "editor",
       width = math.max(80, math.floor(vim.o.columns * 0.8)),
       height = math.max(24, math.floor(vim.o.lines * 0.8)),
@@ -235,8 +235,13 @@ function M.create_session(opts)
       col = 0,
       style = "minimal",
       focusable = false,
-      noautocmd = true,
-    })
+    }
+
+    if vim.fn.has("nvim-0.9") == 1 then
+      win_config.noautocmd = true
+    end
+
+    local temp_win = vim.api.nvim_open_win(bufnr, false, win_config)
 
     vim.api.nvim_win_call(temp_win, function()
       vim.fn.termopen(vim.o.shell)

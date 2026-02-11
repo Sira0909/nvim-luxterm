@@ -1,5 +1,4 @@
 -- Simplified preview pane component
-local highlights = require("luxterm.ui.highlights")
 local buffer_protection = require("luxterm.ui.buffer_protection")
 local utils = require("luxterm.utils")
 
@@ -12,7 +11,6 @@ local M = {
 }
 
 function M.setup(opts)
-  highlights.setup_preview_highlights()
 end
 
 function M.create_window(winid, bufnr)
