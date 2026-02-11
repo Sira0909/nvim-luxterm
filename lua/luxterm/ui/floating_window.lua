@@ -345,18 +345,17 @@ function M.create_session_window(session, config)
         M.close_window(winid)
       end, opts)
       
-      -- Get toggle keymap from core module to ensure it works in session windows
-      local core = require("luxterm.core")
-      if core and core.config then
-        local toggle_key = core.config.keymaps.toggle_manager
+      local config_module = require("luxterm.config")
+      local keymaps = config_module.get("keymaps")
+      if keymaps then
+        local toggle_key = keymaps.toggle_manager
         if toggle_key then
-          -- Be very careful about terminal mode keymaps - only set if not ESC
+          local core = require("luxterm.core")
           if toggle_key ~= "<Esc>" and toggle_key ~= "<ESC>" then
             vim.keymap.set({"n", "t"}, toggle_key, function()
               core.toggle_manager()
             end, vim.tbl_extend("force", opts, {desc = "Toggle Luxterm manager"}))
           else
-            -- Only set in normal mode if toggle key is ESC
             vim.keymap.set("n", toggle_key, function()
               core.toggle_manager()
             end, vim.tbl_extend("force", opts, {desc = "Toggle Luxterm manager"}))

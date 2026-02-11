@@ -223,17 +223,26 @@ end
 function M.create_session(opts)
   opts = opts or {}
   
-  -- Create terminal buffer if not provided
   local bufnr = opts.bufnr
   if not bufnr then
-    -- Create a completely fresh buffer for terminal
     bufnr = vim.api.nvim_create_buf(true, false)
-    
-    -- Switch to buffer temporarily to run termopen
-    local current_buf = vim.api.nvim_get_current_buf()
-    vim.api.nvim_set_current_buf(bufnr)
-    vim.fn.termopen(vim.o.shell)
-    vim.api.nvim_set_current_buf(current_buf)
+
+    local temp_win = vim.api.nvim_open_win(bufnr, false, {
+      relative = "editor",
+      width = math.max(80, math.floor(vim.o.columns * 0.8)),
+      height = math.max(24, math.floor(vim.o.lines * 0.8)),
+      row = 0,
+      col = 0,
+      style = "minimal",
+      focusable = false,
+      noautocmd = true,
+    })
+
+    vim.api.nvim_win_call(temp_win, function()
+      vim.fn.termopen(vim.o.shell)
+    end)
+
+    vim.api.nvim_win_close(temp_win, true)
   end
   
   -- Ensure swap files are disabled for all luxterm terminal buffers
