@@ -773,7 +773,10 @@ function M.open_session_window(session)
   end
   
   floating_window.create_session_window(session, {
-    auto_hide = get_config("auto_hide")
+    auto_hide = get_config("auto_hide"),
+    keymaps = {
+      hide_terminal = get_config("keymaps").hide_terminal
+    }
   })
   
   -- Ensure terminal keymaps are set up for this session

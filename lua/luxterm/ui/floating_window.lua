@@ -88,6 +88,7 @@ function M.create_window(config)
   
   -- Create window
   local winid = vim.api.nvim_open_win(bufnr, config.enter or false, win_config)
+  M.winid = winid
   
   vim.wo[winid].winhighlight = WINHIGHLIGHT
 
@@ -344,7 +345,7 @@ function M.create_session_window(session, config)
       
       -- Don't map ESC at all - let it pass through to the terminal application
       -- Use C-Esc to close terminal window from terminal mode
-      vim.keymap.set("t", "<C-Esc>", function()
+      vim.keymap.set("t", config.keymaps.hide_terminal or "<C-ESC>", function()
         M.close_window(winid)
       end, opts)
       

@@ -14,6 +14,7 @@ M.defaults = {
     toggle_manager = "<C-/>",
     next_session = "<C-k>",
     prev_session = "<C-j>",
+    hide_terminal = "<C-Esc>",
     global_session_nav = false
   }
 }
