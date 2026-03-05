@@ -88,7 +88,6 @@ function M.create_window(config)
   
   -- Create window
   local winid = vim.api.nvim_open_win(bufnr, config.enter or false, win_config)
-  M.winid = winid
   
   vim.wo[winid].winhighlight = WINHIGHLIGHT
 
