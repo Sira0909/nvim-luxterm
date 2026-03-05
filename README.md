@@ -103,6 +103,7 @@ require("luxterm").setup({
     toggle_manager = "<C-/>",     -- Toggle session manager
     next_session = "<C-k>",       -- Next session keybinding
     prev_session = "<C-j>",       -- Previous session keybinding
+    hide_terminal = "<C-Esc>",    -- Hide active terminal keybinding
     global_session_nav = false,   -- Enable global session navigation
   }
 })
@@ -142,7 +143,7 @@ When a terminal session window is open:
 
 | Key | Action |
 |-----|--------|
-| `<C-Esc>` | Close the session window (terminal mode) |
+| Hide key (default `<C-Esc>`) | Close the session window (terminal mode) |
 | Toggle key (default `<C-/>`) | Toggle session manager (normal/terminal mode) |
 
 ---
